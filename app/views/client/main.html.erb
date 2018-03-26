@@ -1,26 +1,27 @@
 <div ng-app='app.clientApp' ng-controller='ClientCtrl'>
   <br>
   <div class="col-xs-7">
+    {{keyCode}}
     <div class="row">
-      <video src="videos/1.mp4" type="video/mp4" width="640" height="360"></video>
+      <video ng-src="{{src}}" src="videos/1.mp4" type="video/mp4" width="640" height="360"></video>
     </div>
     <br>
     <div class="row">
       <div class="col-xs-4">
-        <button type="button" class="btn btn-success btn-lg" style="width:160px;">1</button>
+        <button type="button" class="btn btn-success btn-lg w-160" ng-click="playVideo(1)">1</button>
       </div>
       <div class="col-xs-4">
-        <button type="button" class="btn btn-success btn-lg" style="width:160px;">2</button>
+        <button type="button" class="btn btn-success btn-lg w-160" ng-click="playVideo(2)">2</button>
       </div>
       <div class="col-xs-4">
-        <button type="button" class="btn btn-success btn-lg" style="width:160px;">3</button>
+        <button type="button" class="btn btn-success btn-lg w-160" ng-click="playVideo(3)">3</button>
       </div>
     </div>
   </div>
   <div class="col-xs-5">
     <div class="row">
       <div class="col-xs-12">
-        <button type="button" class="btn btn-danger btn-lg">REC / STOP</button>
+        <button type="button" class="btn btn-danger btn-lg" ng-click="recording()">{{recBtnText}}</button>
       </div>
     </div>
     <br>
