@@ -6,8 +6,8 @@ app.directive 'shortcut', ->
     replace: true
     scope: true
     link: (scope, iElement, iAttrs) ->
-      jQuery(document).on 'keypress', (e) ->
-        scope.$apply scope.keyPressed(e)
+      jQuery(document).on 'keyup', (e) ->
+        scope.$apply scope.keyUp(e)
         return
       return
   }
@@ -17,22 +17,31 @@ app.controller('ClientCtrl', ['$scope',
     $scope.onAir = false
     $scope.recBtnText = 'REC'
     $scope.source = 'videos/1.mp4'
+    $scope.video = document.getElementById('video')
 
-    $scope.keyPressed = (e) ->
+    $scope.keyUp = (e) ->
+      if (e.target.tagName == 'INPUT')
+        return
       key = String.fromCharCode(e.keyCode)
       if (key == '1' || key == '2' || key == '3')
+        d = new Date()
         $scope.source = "videos/#{key}.mp4"
+        setTimeout(play, 0)
+        return
+
+    play = ->
+      $scope.video.play()
 
     $scope.recording = ->
       if ($scope.onAir)
-        $scope.onAir = false
         $scope.recBtnText = 'REC'
       else
-        $scope.onAir = true
         $scope.recBtnText = 'STOP'
+      $scope.onAir = !$scope.onAir
 
     $scope.playVideo = (number)->
-      $scope.src = 'videos/' + number + '.mp4'
+      $scope.source = "videos/#{number}.mp4"
+      $scope.video.play()
 
   ])
 
