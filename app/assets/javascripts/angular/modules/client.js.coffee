@@ -1,3 +1,4 @@
-@clientApp = angular.module('app.clientApp', [])
-  .run(->
-    console.log 'clientApp running')
+app = angular.module('app.clientApp', [])
+
+app.run(->
+  console.log 'clientApp running')

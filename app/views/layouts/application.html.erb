@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='app.clientApp'>
   <head>
     <title>JeffPiano</title>
     <%= csrf_meta_tags %>
@@ -8,7 +8,8 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body ng-controller='ClientCtrl'>
+    <shortcut></shortcut>
     <div class="container">
       <%= yield %>
     </div>
