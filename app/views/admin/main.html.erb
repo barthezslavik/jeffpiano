@@ -1,6 +1,29 @@
+<br>
+
 <div class="row">
-  <br>
-  <% @records.each do |r| %>
-    <div><%= r.name %></div>
+  <h4>Total recordings: <%= @records.count %></h4>
+</div>
+
+<div class="row">
+  <h4>Distribution: <%= @records.count %></h4>
+</div>
+
+<div class="row">
+  <h4>Average rate: <%= @records.count %></h4>
+</div>
+
+<br>
+
+<div class="row">
+  <h4>All recordings:</h4>
+</div>
+
+
+<div class="row">
+  <% @records.each do |record| %>
+    <div class="row">
+      <div class="col-xs-4"><%= record.name %></div>
+      <div class="col-xs-1"><%= link_to 'Destroy', record, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+    </div>
   <% end %>
 </div>

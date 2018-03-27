@@ -50,6 +50,7 @@ GEM
       tilt
     angular-ui-bootstrap-rails (2.4.0)
     angularjs-rails (1.6.8)
+    angularjs-rails-resource (2.0.0)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
@@ -208,6 +209,7 @@ DEPENDENCIES
   angular-rails-templates
   angular-ui-bootstrap-rails
   angularjs-rails
+  angularjs-rails-resource (~> 2.0.0)
   bootsnap (>= 1.1.0)
   bootstrap-sass (~> 3.3.7)
   bower-rails

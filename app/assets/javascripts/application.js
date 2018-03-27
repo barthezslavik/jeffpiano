@@ -17,6 +17,7 @@
 //= require bootstrap
 //= require angular
 //= require angular-rails-templates
+//= require angularjs/rails/resource
 //= require angular/app
 //= require_tree ./angular/templates
 //= require_tree ./angular/modules

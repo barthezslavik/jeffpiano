@@ -43,10 +43,7 @@ class RecordsController < ApplicationController
 
   def destroy
     @record.destroy
-    respond_to do |format|
-      format.html { redirect_to records_url, notice: 'Record was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_back fallback_location: admin_path
   end
 
   private

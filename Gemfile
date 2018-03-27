@@ -39,6 +39,7 @@ gem 'angularjs-rails'
 gem 'angular-ui-bootstrap-rails' #for bootstrap UI
 gem 'jquery-rails'
 gem 'angular-rails-templates'
+gem 'angularjs-rails-resource', '~> 2.0.0'
 gem 'bower-rails'
 
 group :development, :test do
