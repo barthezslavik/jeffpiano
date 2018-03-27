@@ -1,8 +1,11 @@
 class RecordsController < ApplicationController
   before_action :set_record, only: [:show, :edit, :update, :destroy]
 
+  # turned off because have some troubles with configuration
+  skip_before_action :verify_authenticity_token
+
   def index
-    @records = Record.all
+    @records = Record.order('created_at DESC')
   end
 
   def show

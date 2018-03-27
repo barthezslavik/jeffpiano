@@ -12,12 +12,20 @@ app.directive 'shortcut', ->
       return
   }
 
-app.controller('ClientCtrl', ['$scope',
-  ($scope)->
+app.controller('ClientCtrl', ['$scope', '$http',
+  ($scope, $http)->
     $scope.onAir = false
+    $scope.canSave = false
     $scope.recBtnText = 'REC'
     $scope.source = 'videos/1.mp4'
     $scope.video = document.getElementById('video')
+
+    getRecordsList = ->
+      $http.get('records.json').then (res) ->
+        $scope.records = res.data
+        return
+
+    getRecordsList()
 
     $scope.keyUp = (e) ->
       if (e.target.tagName == 'INPUT')
@@ -32,12 +40,19 @@ app.controller('ClientCtrl', ['$scope',
     play = ->
       $scope.video.play()
 
+    $scope.save = ->
+      $scope.canSave = false
+      $http.post('records', {name: $scope.name}).then (res) ->
+        getRecordsList()
+
     $scope.recording = ->
-      if ($scope.onAir)
-        $scope.recBtnText = 'REC'
-      else
-        $scope.recBtnText = 'STOP'
       $scope.onAir = !$scope.onAir
+      if ($scope.onAir)
+        $scope.canSave = false
+        $scope.recBtnText = 'STOP'
+      else
+        $scope.canSave = true
+        $scope.recBtnText = 'REC'
 
     $scope.playVideo = (number)->
       $scope.source = "videos/#{number}.mp4"

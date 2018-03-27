@@ -49,6 +49,8 @@ GEM
       sprockets (>= 3.0, < 5)
       tilt
     angular-ui-bootstrap-rails (2.4.0)
+    angular_rails_csrf (3.0.0)
+      railties (>= 3, < 5.2)
     angularjs-rails (1.6.8)
     angularjs-rails-resource (2.0.0)
     archive-zip (0.11.0)
@@ -208,6 +210,7 @@ PLATFORMS
 DEPENDENCIES
   angular-rails-templates
   angular-ui-bootstrap-rails
+  angular_rails_csrf
   angularjs-rails
   angularjs-rails-resource (~> 2.0.0)
   bootsnap (>= 1.1.0)
