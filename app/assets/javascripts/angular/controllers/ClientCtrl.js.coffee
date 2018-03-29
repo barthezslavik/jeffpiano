@@ -32,14 +32,8 @@ app.controller('ClientCtrl', ['$scope', '$http',
         return
       key = String.fromCharCode(e.keyCode)
       if (key == '1' || key == '2' || key == '3')
-        start_at = Date.now() - $scope.startRecordTime
-        source = $scope.video.getAttribute('src')
-        $scope.chunks.push({
-          start_at: start_at,
-          source: source
-        })
-        play("videos/#{key}.mp4")
-        return
+        source = "videos/#{key}.mp4"
+        $scope.processChunk(source)
 
     $scope.save = ->
       $scope.canSave = false
@@ -49,11 +43,11 @@ app.controller('ClientCtrl', ['$scope', '$http',
           }).then (res) ->
             getRecordsList()
             $scope.name = ''
-            $scope.chunks = []
 
-    $scope.recording = ->
+    $scope.startRecording = ->
       $scope.onAir = !$scope.onAir
       if ($scope.onAir)
+        $scope.chunks = []
         $scope.canSave = false
         $scope.recBtnText = 'STOP'
       else
@@ -64,21 +58,26 @@ app.controller('ClientCtrl', ['$scope', '$http',
     $scope.playVideo = (number)->
       play("videos/#{number}.mp4")
 
+    $scope.processChunk = (source) ->
+      start_at = Date.now() - $scope.startRecordTime
+      $scope.chunks.push({
+        start_at: start_at,
+        source: source
+      })
+      play(source)
+
     $scope.playRecord = (id)->
       $http.get("records/#{id}.json").then (res) ->
-        $scope.current = res.data
+        $scope.chunks = res.data['chunks']
+        $scope.chunks.forEach (chunk, i, chunks) ->
+          setTimeout(->
+            play(chunk.source)
+            # align first chunk
+          , chunk.start_at - chunks[0].start_at)
 
     play = (src) ->
       $scope.video.pause()
       $scope.video.setAttribute('src', src)
       $scope.video.load()
       $scope.video.play()
-
-    $scope.playCurrent = ->
-      chunks = $scope.chunks
-      $scope.chunks.forEach (chunk, i, arr) ->
-        setTimeout(->
-          play(chunk.source)
-        , chunk.start_at)
-
   ])
