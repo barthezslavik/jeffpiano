@@ -53,7 +53,7 @@ app.controller('ClientCtrl', ['$scope', '$http',
       else
         $scope.canSave = true
         $scope.recBtnText = 'REC'
-        $scope.video.pause()
+        $scope.processChunk(null)
 
     $scope.playVideo = (number)->
       play("videos/#{number}.mp4")
@@ -72,12 +72,15 @@ app.controller('ClientCtrl', ['$scope', '$http',
         $scope.chunks.forEach (chunk, i, chunks) ->
           setTimeout(->
             play(chunk.source)
-            # align first chunk
+            # align first chunk with zero
           , chunk.start_at - chunks[0].start_at)
 
     play = (src) ->
-      $scope.video.pause()
-      $scope.video.setAttribute('src', src)
-      $scope.video.load()
-      $scope.video.play()
+      if (src)
+        $scope.video.pause()
+        $scope.video.setAttribute('src', src)
+        $scope.video.load()
+        $scope.video.play()
+      else
+        $scope.video.pause()
   ])
