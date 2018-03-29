@@ -1,0 +1,32 @@
+<%= form_with(model: chunk, local: true) do |form| %>
+  <% if chunk.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(chunk.errors.count, "error") %> prohibited this chunk from being saved:</h2>
+
+      <ul>
+      <% chunk.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :record_id %>
+    <%= form.number_field :record_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_at %>
+    <%= form.number_field :start_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :source %>
+    <%= form.text_field :source %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

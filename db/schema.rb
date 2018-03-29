@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_26_005309) do
+ActiveRecord::Schema.define(version: 2018_03_28_203641) do
+
+  create_table "chunks", force: :cascade do |t|
+    t.integer "record_id"
+    t.integer "start_at"
+    t.string "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "records", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.integer "duration"
   end
 
 end

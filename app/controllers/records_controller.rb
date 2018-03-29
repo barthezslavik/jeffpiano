@@ -1,7 +1,6 @@
 class RecordsController < ApplicationController
   before_action :set_record, only: [:show, :edit, :update, :destroy]
-
-  # turned off because have some troubles with configuration
+  # turned off because have configuration issue
   skip_before_action :verify_authenticity_token
 
   def index
@@ -23,10 +22,8 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       if @record.save
-        format.html { redirect_to @record, notice: 'Record was successfully created.' }
         format.json { render :show, status: :created, location: @record }
       else
-        format.html { render :new }
         format.json { render json: @record.errors, status: :unprocessable_entity }
       end
     end
@@ -35,10 +32,8 @@ class RecordsController < ApplicationController
   def update
     respond_to do |format|
       if @record.update(record_params)
-        format.html { redirect_to @record, notice: 'Record was successfully updated.' }
         format.json { render :show, status: :ok, location: @record }
       else
-        format.html { render :edit }
         format.json { render json: @record.errors, status: :unprocessable_entity }
       end
     end
@@ -55,6 +50,6 @@ class RecordsController < ApplicationController
     end
 
     def record_params
-      params.require(:record).permit(:name)
+      params.require(:record).permit(:name, chunks_attributes: [:id, :start_at, :source])
     end
 end

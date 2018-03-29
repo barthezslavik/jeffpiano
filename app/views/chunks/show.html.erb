@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Record:</strong>
+  <%= @chunk.record_id %>
+</p>
+
+<p>
+  <strong>Start at:</strong>
+  <%= @chunk.start_at %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @chunk.source %>
+</p>
+
+<%= link_to 'Edit', edit_chunk_path(@chunk) %> |
+<%= link_to 'Back', chunks_path %>
