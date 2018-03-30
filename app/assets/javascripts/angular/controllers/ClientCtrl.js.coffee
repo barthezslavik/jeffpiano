@@ -99,7 +99,6 @@ app.controller('ClientCtrl', ['$scope', '$http',
           , chunk.start_at - chunks[0].start_at)
 
     play = (player, source) ->
-      $scope.active.push(player)
       player.setAttribute('src', source)
       player.load()
       player.play()
