@@ -78,6 +78,7 @@ app.controller('ClientCtrl', ['$scope', '$http',
         $scope.canSave = true
         $scope.recBtnText = 'REC'
         $scope.processChunk(null)
+        $('video').get(0).pause()
 
     $scope.playVideo = (number)->
       source = "videos/#{number}.mp4"
