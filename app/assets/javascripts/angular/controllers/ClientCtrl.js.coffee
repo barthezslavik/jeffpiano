@@ -17,7 +17,6 @@ app.controller('ClientCtrl', ['$scope', '$http',
     $scope.onAir = false
     $scope.canSave = false
     $scope.recBtnText = 'REC'
-    $scope.video = document.getElementById('video')
     $scope.startRecordTime = Date.now()
     $scope.chunks = []
 
@@ -32,8 +31,7 @@ app.controller('ClientCtrl', ['$scope', '$http',
         return
       key = String.fromCharCode(e.keyCode)
       if (key == '1' || key == '2' || key == '3')
-        source = "videos/#{key}.mp4"
-        $scope.processChunk(source)
+        $scope.playVideo(key)
 
     $scope.save = ->
       $scope.canSave = false
@@ -43,6 +41,32 @@ app.controller('ClientCtrl', ['$scope', '$http',
           }).then (res) ->
             getRecordsList()
             $scope.name = ''
+
+    $scope.processDom = (source) ->
+      # add chunk state as element class
+      $('.finished').remove()
+      $('.playing').hide()
+      parent = document.getElementById('parent')
+      player = document.createElement('video')
+      player.setAttribute('class', 'playing')
+      player.style.width = '640px'
+      player.style.height = '360px'
+      player.onended = ->
+        # hide DOM when finished
+        player.setAttribute('class', 'finished')
+        if $('.playing').length > 0
+          $('.playing').last().show()
+          player.remove()
+        return
+      parent.appendChild(player)
+      play(player, source)
+
+    $scope.processChunk = (source) ->
+      start_at = Date.now() - $scope.startRecordTime
+      $scope.chunks.push({
+        start_at: start_at,
+        source: source
+      })
 
     $scope.startRecording = ->
       $scope.onAir = !$scope.onAir
@@ -56,31 +80,27 @@ app.controller('ClientCtrl', ['$scope', '$http',
         $scope.processChunk(null)
 
     $scope.playVideo = (number)->
-      play("videos/#{number}.mp4")
-
-    $scope.processChunk = (source) ->
-      start_at = Date.now() - $scope.startRecordTime
-      $scope.chunks.push({
-        start_at: start_at,
-        source: source
-      })
-      play(source)
+      source = "videos/#{number}.mp4"
+      $scope.processChunk(source)
+      $scope.processDom(source)
 
     $scope.playRecord = (id)->
       $http.get("records/#{id}.json").then (res) ->
         $scope.chunks = res.data['chunks']
         $scope.chunks.forEach (chunk, i, chunks) ->
           setTimeout(->
-            play(chunk.source)
+            # pause video if record ended
+            if (chunk.source == null)
+              $('video').show()
+              $('video').get(0).pause()
+            else
+              $scope.processDom(chunk.source)
             # align first chunk with zero
           , chunk.start_at - chunks[0].start_at)
 
-    play = (src) ->
-      if (src)
-        $scope.video.pause()
-        $scope.video.setAttribute('src', src)
-        $scope.video.load()
-        $scope.video.play()
-      else
-        $scope.video.pause()
+    play = (player, source) ->
+      $scope.active.push(player)
+      player.setAttribute('src', source)
+      player.load()
+      player.play()
   ])
